@@ -4,19 +4,13 @@ import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 import { Button, Error, FormField, Input, Label, Textarea } from "../styles";
 
-function NewRecipe({ user }) {
-  const [title, setTitle] = useState("My Crypto Project");
+function NewChatter({ user }) {
+  const [title, setTitle] = useState("add some chatter");
   const [minutesToComplete, setMinutesToComplete] = useState("30");
-  const [instructions, setInstructions] = useState(`Here's how you make it.
+  const [instructions, setInstructions] = useState(`Here's how you make chatter:
   
-## Ingredients
+Ethereum hit $4000, will the trend continue?
 
-- 1c Sugar
-- 1c Spice
-
-## Instructions
-
-**Mix** sugar and spice. _Bake_ for 30 minutes.
   `);
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,7 +42,7 @@ function NewRecipe({ user }) {
   return (
     <Wrapper>
       <WrapperChild>
-        <h2>Create Crypto Job</h2>
+        <h2>Create A Chat</h2>
         <form onSubmit={handleSubmit}>
           <FormField>
             <Label htmlFor="title">Title</Label>
@@ -69,7 +63,7 @@ function NewRecipe({ user }) {
             />
           </FormField>
           <FormField>
-            <Label htmlFor="instructions">Instructions</Label>
+            <Label htmlFor="instructions">Chat</Label>
             <Textarea
               id="instructions"
               rows="10"
@@ -114,4 +108,4 @@ const WrapperChild = styled.div`
   flex: 1;
 `;
 
-export default NewRecipe;
+export default NewChatter;
