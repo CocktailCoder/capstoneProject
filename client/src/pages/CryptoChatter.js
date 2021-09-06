@@ -19,13 +19,11 @@ function NewsForum() {
         chatters.map((chatter) => (
           <Recipe key={chatter.id}>
             <Box>
-              <h2>{chatter.title}</h2>
+              <h2>{chatter.headline}</h2>
               <p>
-                <em>Time to Complete: {chatter.minutesToComplete} minutes</em>
-                &nbsp;·&nbsp;
                 <cite>By {chatter.user.username}</cite>
               </p>
-              <ReactMarkdown>{chatter.instructions}</ReactMarkdown>
+              <ReactMarkdown>{chatter.chat}</ReactMarkdown>
             </Box>
           </Recipe>
         ))

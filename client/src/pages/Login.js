@@ -9,7 +9,7 @@ function Login({ onLogin }) {
 
   return (
     <Wrapper>
-      <Logo>Crypto Dashboard</Logo>
+      <Logo>Crypto Bay</Logo>
       {showLogin ? (
         <>
           <LoginForm onLogin={onLogin} />

@@ -5,9 +5,8 @@ import ReactMarkdown from "react-markdown";
 import { Button, Error, FormField, Input, Label, Textarea } from "../styles";
 
 function NewChatter({ user }) {
-  const [title, setTitle] = useState("add some chatter");
-  const [minutesToComplete, setMinutesToComplete] = useState("30");
-  const [instructions, setInstructions] = useState(`Here's how you make chatter:
+  const [headline, setHeadline] = useState("Whats Your Chatter About");
+  const [chat, setChat] = useState(`Here's how you make chatter:
   
 Ethereum hit $4000, will the trend continue?
 
@@ -19,20 +18,19 @@ Ethereum hit $4000, will the trend continue?
   function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
-    fetch("/recipes", {
+    fetch("/chatters", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title,
-        instructions,
-        minutes_to_complete: minutesToComplete,
+        headline,
+        chat,
       }),
     }).then((r) => {
       setIsLoading(false);
       if (r.ok) {
-        history.push("/");
+        history.push("/chatter");
       } else {
         r.json().then((err) => setErrors(err.errors));
       }
@@ -45,35 +43,27 @@ Ethereum hit $4000, will the trend continue?
         <h2>Create A Chat</h2>
         <form onSubmit={handleSubmit}>
           <FormField>
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="headline">Headline</Label>
             <Input
               type="text"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              id="headline"
+              value={headline}
+              onChange={(e) => setHeadline(e.target.value)}
             />
           </FormField>
+
           <FormField>
-            <Label htmlFor="minutesToComplete">Minutes to complete</Label>
-            <Input
-              type="number"
-              id="minutesToComplete"
-              value={minutesToComplete}
-              onChange={(e) => setMinutesToComplete(e.target.value)}
-            />
-          </FormField>
-          <FormField>
-            <Label htmlFor="instructions">Chat</Label>
+            <Label htmlFor="chat">Chat</Label>
             <Textarea
-              id="instructions"
-              rows="10"
-              value={instructions}
-              onChange={(e) => setInstructions(e.target.value)}
+              id="chat"
+              rows="5"
+              value={chat}
+              onChange={(e) => setChat(e.target.value)}
             />
           </FormField>
           <FormField>
             <Button color="primary" type="submit">
-              {isLoading ? "Loading..." : "Submit Job"}
+              {isLoading ? "Loading..." : "Send Chat"}
             </Button>
           </FormField>
           <FormField>
@@ -84,13 +74,11 @@ Ethereum hit $4000, will the trend continue?
         </form>
       </WrapperChild>
       <WrapperChild>
-        <h1>{title}</h1>
+        <h1>{headline}</h1>
+        <h4><i>{chat}</i></h4>
         <p>
-          <em>Time to Complete: {minutesToComplete} minutes</em>
-          &nbsp;·&nbsp;
           <cite>By {user.username}</cite>
         </p>
-        <ReactMarkdown>{instructions}</ReactMarkdown>
       </WrapperChild>
     </Wrapper>
   );

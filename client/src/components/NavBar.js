@@ -15,7 +15,7 @@ function NavBar({ user, setUser }) {
   return (
     <Wrapper>
       <Logo>
-        <Link to="/">Crypto Dashboard</Link>
+        <Link to="/">Crypto Bay</Link>
       </Logo>
       <Nav>
         <Button as={Link} to="/new">

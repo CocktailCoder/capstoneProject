@@ -1,0 +1,2 @@
+class ChattersController < ApplicationController
+end
