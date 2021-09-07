@@ -4,25 +4,38 @@ import ReactMarkdown from "react-markdown";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Button, Box } from "../styles";
-import Ticker from 'react-ticker'
+import Ticker from 'react-ticker';
+import CoinCard from "./CoinCard";
+import Dashboard from "./Dashboard";
+import { Switch, Route } from "react-router-dom"
  
 function  MainPage(){
     const [ coins, setCoins ] = useState([])
     const [topChats, setTopChats] = useState([]);
+    const [myPortfolio, setMyPortfolio] = useState([])
 
-    // useEffect(()=> {
-    //     fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C%2024hr%2C%207d%2C%2030d%2C%20200d%2C%201yr`)
-    //     .then(r => r.json())
-    //     .then( crypto => setCoins(crypto)
-    //     )
-    //   }, []) 
+    useEffect(()=> {
+        fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C%2024hr%2C%207d%2C%2030d%2C%20200d%2C%201yr`)
+        .then(r => r.json())
+        .then( crypto => setCoins(crypto)
+        )
+      }, []) 
  
 
-      useEffect(() => {
-        fetch("/chatters")
-          .then((r) => r.json())
-          .then(setTopChats);
-      }, []);
+      // useEffect(() => {
+      //   fetch("/chatters")
+      //     .then((r) => r.json())
+      //     .then(setTopChats);
+      // }, []);
+
+
+      function addToPortfolio(coins, details) {
+        if(!myPortfolio.includes(coins)) {
+       const updatePortfolio = [...myPortfolio, coins]
+       const updatePortfolioDeets = [...myPortfolio, details]
+       setMyPortfolio(updatePortfolio, updatePortfolioDeets)
+      }}
+
 
       return (
         <>
@@ -42,7 +55,7 @@ function  MainPage(){
             <Button as={Link} to="/new">
             Promote Projects
             </Button>
-            
+
             <Button as={Link} to="/chatter">
             Crypto Chatter
             </Button>
@@ -64,6 +77,25 @@ function  MainPage(){
           <Button as={Link} to="/newchatter">
             Make a New Chat!
           </Button>
+
+          <h1>List of cryptos</h1>
+          {coins.map(coin => {
+                    return (
+                    <CoinCard
+                    key = {coin.id}
+                    id = {coin.id}
+                    name = {coin.name}
+                    image = {coin.image}
+                    symbol = {coin.symbol}
+                    price = {coin.current_price}
+                    handleClick={addToPortfolio}
+                    coins={coin}
+                    myPortfolio={myPortfolio}
+                    />
+                    )
+                  })
+                  }
+
         </>
       )}
    </div>
