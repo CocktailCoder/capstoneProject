@@ -2,13 +2,13 @@ import { Link } from "react-router-dom"
 import Dashboard from "./Dashboard";
 import {useState} from "react";
 
-function CoinCard({name , image, symbol, price, crypto, setCryptos}) {
+function CoinCard({id, name , image, symbol, price, crypto, setCryptos}) {
     // const [errors, setErrors] = useState([])
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
     });
-    const {id} = crypto;
+    // const {id} = crypto;
 
     function deleteCrypto(){
       fetch(`/cryptos/${id}`,
