@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 import Login from "../pages/Login";
-import NewRecipe from "../pages/NewRecipe";
 import MainPage from "../pages/MainPage";
 import CryptoChatter from "../pages/CryptoChatter";
 import NewChatter from "../pages/NewChatter";
@@ -38,10 +37,9 @@ function App() {
           </Route>
           <Route path="/">
             <MainPage />
-            {/* <RecipeList /> */}
           </Route>
           <Route path="/new">
-            <NewRecipe user={user} />
+            <NewChatter user={user} />
           </Route>
         </Switch>
       </main>
