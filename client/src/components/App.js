@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 import Login from "../pages/Login";
-import RecipeList from "../pages/RecipeList";
 import NewRecipe from "../pages/NewRecipe";
 import MainPage from "../pages/MainPage";
 import CryptoChatter from "../pages/CryptoChatter";
 import NewChatter from "../pages/NewChatter";
+import Dashboard from "../pages/Dashboard"
 
 function App() {
   const [user, setUser] = useState(null);
@@ -32,6 +32,9 @@ function App() {
           </Route>
           <Route path="/newchatter">
             <NewChatter user={user} />
+          </Route>
+          <Route path="/dashboard">
+            <Dashboard user={user} />
           </Route>
           <Route path="/">
             <MainPage />

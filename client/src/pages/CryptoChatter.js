@@ -3,10 +3,63 @@ import ReactMarkdown from "react-markdown";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Box, Button } from "../styles";
+import {useHistory} from "react-router";
 
 function NewsForum() {
   const [chatters, setChatters] = useState([]);
+  // const [liked, setLiked] = useState(false)
+//   const {id} = chatters;
 
+
+// let history = useHistory();
+
+  
+//   useEffect(() => {
+//     function fetchItems(){
+//       fetch("/chatters")
+//       .then(res=>res.json())
+//       .then(chatters => {
+//         if(chatters.error){
+//             history.push(`/`);
+//           }else{
+//             setChatters(chatters)
+//           }
+//       })
+//     }
+//     fetchItems();
+//   },[]);
+
+  // function toggleLike() {
+  //     const updateObj = {
+  //         likes: chatters.likes + 1,
+  //     };
+
+  //     setLiked(!liked)
+
+  //     {!liked ? 
+  //         fetch(`/chatters/${id}/like`, {
+  //         method: "PATCH",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(updateObj),
+  //       })
+  //         .then((r) => r.json())
+  //         .then((console.log) 
+  //         ) 
+  //         :
+  //         fetch(`/chatters/${id}/unlike`, {
+  //             method: "PATCH",
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //             },
+  //             body: JSON.stringify(updateObj),
+  //           })
+  //             .then((r) => r.json())
+  //             .then((console.log)
+  //             );
+  //         }
+  // }
   useEffect(() => {
     fetch("/chatters")
       .then((r) => r.json())
@@ -17,7 +70,7 @@ function NewsForum() {
     <Wrapper>
       {chatters.length > 0 ? (
         chatters.map((chatter) => (
-          <Recipe key={chatter.id}>
+          <div key={chatter.id}>
             <Box>
               <h2>{chatter.headline}</h2>
               <p>
@@ -25,9 +78,15 @@ function NewsForum() {
               </p>
               <ReactMarkdown>{chatter.chat}</ReactMarkdown>
             </Box>
-          </Recipe>
+            <span>
+              <br></br>
+              {/* <button type='submit' class='likeBtn' onClick={toggleLike}>
+                {!liked ? '♡' : '💙'}
+              </button> */}
+          </span>
+          </div>
         ))
-        
+      
       ) : (
         <>
           <h2>No Chatter Found</h2>

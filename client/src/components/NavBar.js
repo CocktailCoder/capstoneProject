@@ -18,8 +18,11 @@ function NavBar({ user, setUser }) {
         <Link to="/">Crypto Bay</Link>
       </Logo>
       <Nav>
-        <Button as={Link} to="/new">
-          New Crypto
+        <Button as={Link} to="/chatter">
+          Crypto News
+        </Button>
+        <Button as={Link} to="/dashboard">
+          Dashboard
         </Button>
         <Button variant="outline" onClick={handleLogoutClick}>
           Logout

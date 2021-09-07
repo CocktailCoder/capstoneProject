@@ -13,4 +13,8 @@ Rails.application.routes.draw do
   #   - !req.xhr?: it's not a XHR (fetch) request
   #   - req.format.html?: it's a request for a HTML document
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
+
+  patch "/chatters/:id/like", to: "chatters#increment_likes"
+  patch "/chatters/:id/unlike", to: "chatters#decrement_likes"
 end
+
