@@ -10,7 +10,7 @@ import Dashboard from "./Dashboard";
 import { Switch, Route } from "react-router-dom"
  
 function  MainPage(){
-    const [ coins, setCoins ] = useState([])
+    const [coins, setCoins ] = useState([])
     const [topChats, setTopChats] = useState([]);
     const [myPortfolio, setMyPortfolio] = useState([])
 
@@ -35,16 +35,20 @@ function  MainPage(){
        const updatePortfolioDeets = [...myPortfolio, details]
        setMyPortfolio(updatePortfolio, updatePortfolioDeets)
       }}
-
+      
+    const name = coins.map((coin) => (
+        coin.name
+      ))
 
       return (
         <>
       <div id="page">
         <h1 className="heading">Crypto Ticker</h1>
+   
         <Ticker>
           {({ index }) => (
             <>
-                <h2>Crypto Iteration #{index}!  </h2>
+                <h2>{name}[{index}]!  </h2>
                 {/* <img src=" " alt=""/> */}
             </>
         )}
