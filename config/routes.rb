@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :cryptos
   resources :chatters, only: [:index, :create]
   resources :recipes, only: [:index, :create]
   post "/signup", to: "users#create"
@@ -10,6 +9,8 @@ Rails.application.routes.draw do
   get "/currency", to: 'currencies#index'
   post 'search', to: 'currencies#search'
   post 'calculate', to: 'currencies#calculate'
+
+  # post '/updatecrypto' to: 'cryptos#update'
 
   # all other routes will be load our React application
   # this route definition matches:

@@ -48,7 +48,7 @@ function  MainPage(){
         <Ticker>
           {({ index }) => (
             <>
-                <h2>{name}[{index}]!  </h2>
+                <h2>{name}[{index}]  </h2>
                 {/* <img src=" " alt=""/> */}
             </>
         )}

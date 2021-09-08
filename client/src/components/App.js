@@ -19,7 +19,7 @@ function App() {
     });
   }, []);
 
-  // if (!user) return <Login onLogin={setUser} />;
+  if (!user) return <Login onLogin={setUser} />;
 
   return (
     <>
@@ -41,10 +41,6 @@ function App() {
           <Route path="/new">
             <NewChatter user={user} />
           </Route>
-          {/* <Route exact path="/dashboard" component= {
-            () => <Dashboard coins={coins} myPortfolio={myPortfolio}/>
-          }>
-            </Route> */}
         </Switch>
       </main>
     </>
