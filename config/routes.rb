@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  resources :chatters, only: [:index, :create]
-  resources :recipes, only: [:index, :create]
+  resources :watchlists, only: [:index, :show, :create, :update, :destroy]
+  resources :crypto_favs
+  resources :chatters, only: [:index, :create, :show]
+  
   post "/signup", to: "users#create"
   get "/me", to: "users#show"
   post "/login", to: "sessions#create"
@@ -10,6 +12,12 @@ Rails.application.routes.draw do
   post 'search', to: 'currencies#search'
   post 'calculate', to: 'currencies#calculate'
 
+  patch "/chatters/:id/like", to: "chatters#increment_likes"
+  patch "/chatters/:id/unlike", to: "chatters#decrement_likes"
+
+  get "/watchlists", to: "watchlists#index"
+  post "/watchlists", to: "watchlists#create"
+  # destroy "/watchlists/:id/destroy", to: "watchlists#destroy"
   # post '/updatecrypto' to: 'cryptos#update'
 
   # all other routes will be load our React application
@@ -20,7 +28,5 @@ Rails.application.routes.draw do
   #   - req.format.html?: it's a request for a HTML document
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 
-  patch "/chatters/:id/like", to: "chatters#increment_likes"
-  patch "/chatters/:id/unlike", to: "chatters#decrement_likes"
 end
 

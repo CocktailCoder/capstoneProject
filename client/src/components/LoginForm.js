@@ -25,7 +25,7 @@ function LoginForm({ onLogin }) {
       }
     });
   }
-console.log(setErrors)
+  
   return (
     <div>
     <form onSubmit={handleSubmit}>

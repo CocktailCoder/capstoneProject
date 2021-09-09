@@ -5,61 +5,91 @@ import styled from "styled-components";
 import { Box, Button } from "../styles";
 import {useHistory} from "react-router";
 
-function NewsForum() {
+function NewsForum({user}) {
   const [chatters, setChatters] = useState([]);
-  // const [liked, setLiked] = useState(false)
-//   const {id} = chatters;
+  const [liked, setLiked] = useState(false)
+  const [errors, setErrors] = useState([])
+  const [watchlist, setWatchlist] = useState(false)
+  const {id} = chatters;
 
 
-// let history = useHistory();
+let history = useHistory();
 
   
-//   useEffect(() => {
-//     function fetchItems(){
-//       fetch("/chatters")
-//       .then(res=>res.json())
-//       .then(chatters => {
-//         if(chatters.error){
-//             history.push(`/`);
-//           }else{
-//             setChatters(chatters)
-//           }
-//       })
-//     }
-//     fetchItems();
-//   },[]);
+  useEffect(() => {
+    function fetchItems(){
+      fetch("/chatters")
+      .then(res=>res.json())
+      .then(chatters => {
+        if(chatters.error){
+            history.push(`/`);
+          }else{
+            setChatters(chatters)
+          }
+      })
+    }
+    fetchItems();
+  },[]);
 
-  // function toggleLike() {
-  //     const updateObj = {
-  //         likes: chatters.likes + 1,
-  //     };
+  function handleUpdateProject(updatedProject) {
+    const updatedProjectsArray = chatters.map((project) => {
+      return project.id === updatedProject.id ? updatedProject : project;
+    });
+    setChatters(updatedProjectsArray);
+  }
 
-  //     setLiked(!liked)
 
-  //     {!liked ? 
-  //         fetch(`/chatters/${id}/like`, {
-  //         method: "PATCH",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(updateObj),
-  //       })
-  //         .then((r) => r.json())
-  //         .then((console.log) 
-  //         ) 
-  //         :
-  //         fetch(`/chatters/${id}/unlike`, {
-  //             method: "PATCH",
-  //             headers: {
-  //               "Content-Type": "application/json",
-  //             },
-  //             body: JSON.stringify(updateObj),
-  //           })
-  //             .then((r) => r.json())
-  //             .then((console.log)
-  //             );
-  //         }
-  // }
+  function addToWatchlist(chatter){
+    const watchlist = {
+      user_id: user.id,
+      chatter_id: chatter.id
+    }
+  
+    fetch('/watchlists',{
+      method:'POST',
+      headers:{'Content-Type': 'application/json'},
+      body:JSON.stringify(watchlist)
+    })
+    .then(res => res.json())
+    .then(json =>{
+      if(json.error) setErrors(json.error)
+    })
+  }
+
+
+  function toggleLike() {
+      const updateObj = {
+          likes: chatters.likes + 1,
+      };
+
+      setLiked(!liked)
+
+      {!liked ? 
+          fetch(`/chatters/${id}/like`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updateObj),
+        })
+          .then((r) => r.json())
+          .then((updatedProject) => {
+            handleUpdateProject(updatedProject);
+          }) 
+          :
+          fetch(`/chatters/${id}/unlike`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(updateObj),
+            })
+              .then((r) => r.json())
+              .then((updatedProject) => {
+                handleUpdateProject(updatedProject);
+              });
+          }
+  }
   useEffect(() => {
     fetch("/chatters")
       .then((r) => r.json())
@@ -77,12 +107,16 @@ function NewsForum() {
                 <cite>By {chatter.user.username}</cite>
               </p>
               <ReactMarkdown>{chatter.chat}</ReactMarkdown>
+              <button type='submit' class='likeBtn' onClick={toggleLike}>
+                {!liked ? '♡' : '💙'}
+              </button>
             </Box>
             <span>
+            <button type='button' class='favBtn' onClick={() => addToWatchlist(chatter)}>
+                   {!watchlist ? 'Add to Watchlist' : 'Remove from Watchlist'}
+              </button>
               <br></br>
-              {/* <button type='submit' class='likeBtn' onClick={toggleLike}>
-                {!liked ? '♡' : '💙'}
-              </button> */}
+
           </span>
           </div>
         ))

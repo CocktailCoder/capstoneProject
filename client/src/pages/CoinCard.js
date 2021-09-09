@@ -11,7 +11,7 @@ function CoinCard({id, name , image, symbol, price, crypto, setCryptos}) {
     // const {id} = crypto;
 
     function deleteCrypto(){
-      fetch(`/cryptos/${id}`,
+      fetch(`/watchlists/${id}`,
        { method: 'DELETE' })
        .then((r)=>{
         if (r.ok){
@@ -23,26 +23,26 @@ function CoinCard({id, name , image, symbol, price, crypto, setCryptos}) {
       setCryptos((cryptos)=>cryptos.filter((crypto)=>crypto.id !== deletedCrypto.id))
     }
 
-    //   function addToDashboard(){
-    //     const crypto = {
-    //       user_id: user.id,
-    //       crypto_id: crypto.id
-    //     }
-    //     fetch('/cryptos',{
-    //       method:'POST',
-    //       headers:{'Content-Type': 'application/json'},
-    //       body:JSON.stringify(crypto)
-    //     })
-    //     .then(res => res.json())
-    //     .then((r) => {
-    //         setIsLoading(false);
-    //         if (r.ok) {
-    //           history.push("/crypto");
-    //         } else {
-    //           r.json().then((err) => setErrors(err.errors));
-    //         }
-    //       });
-    //     }
+      // function addToDashboard(){
+      //   const crypto = {
+      //     user_id: user.id,
+      //     chatter_id: chatter.id
+      //   }
+      //   fetch('/watchlists',{
+      //     method:'POST',
+      //     headers:{'Content-Type': 'application/json'},
+      //     body:JSON.stringify(crypto)
+      //   })
+      //   .then(res => res.json())
+      //   .then((r) => {
+      //       setIsLoading(false);
+      //       if (r.ok) {
+      //         history.push("/dashboard");
+      //       } else {
+      //         r.json().then((err) => setErrors(err.errors));
+      //       }
+      //     });
+      //   }
     
     return (
     
@@ -52,12 +52,12 @@ function CoinCard({id, name , image, symbol, price, crypto, setCryptos}) {
             <small>{symbol}</small>
             <span style={{fontSize:"11pt"}}>Price: {formatter.format(price)}</span>
         </h1>
-        {/* <button onClick={() => addToDashboard(crypto)} >Add to Portfolio</button> */}
-        <button type='submit' 
+        {/* <button onClick={() => addToDashboard(crypto)} >Add to Dashboard</button> */}
+        {/* <button type='submit' 
               onClick={deleteCrypto}
               >
                 Remove from Cryptos
-              </button>
+              </button> */}
     
 
         

@@ -4,14 +4,30 @@ class ChattersController < ApplicationController
       end
     
       def create
-        chatter = @current_user.chatter.create!(chatter_params)
+        # byebug
+        chatter = @current_user.chatters.create!(chatter_params)
         render json: chatter, status: :created
+      end
+
+      def increment_likes
+        chatter = find_chatter
+          chatter.update(likes: project.likes + 1)
+          render json: chatter
+      end
+
+      def decrement_likes
+        chatter = find_chatter
+          chatter.update(likes: project.likes - 1)
+          render json: chatter
       end
     
       private
     
       def chatter_params
-        params.permit(:headline, :chat)
+        params.permit(:headline, :chat, :user_id, :likes)
       end
     
+      def find_chatter
+        Chatter.find(params[:id])
+      end
     end

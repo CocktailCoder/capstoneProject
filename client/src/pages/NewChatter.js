@@ -5,13 +5,9 @@ import styled from "styled-components";
 import { Button, Error, FormField, Input, Label, Textarea } from "../styles";
 
 function NewChatter({ user }) {
-  const [headline, setHeadline] = useState("Whats Your Chatter About");
-  const [chat, setChat] = useState(`Here's how you make chatter:
-  
-Ethereum hit $4000, will the trend continue?
-
-  `);
-  const [errors, setErrors] = useState([]);
+  const [headline, setHeadline] = useState();
+  const [chat, setChat] = useState();
+  // const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
 
@@ -25,15 +21,16 @@ Ethereum hit $4000, will the trend continue?
       },
       body: JSON.stringify({
         headline,
-        chat
+        chat,
       }),
     }).then((r) => {
       setIsLoading(false);
       if (r.ok) {
         history.push("/chatter");
-      } else {
-        r.json().then((err) => setErrors(err.errors));
-      }
+      } 
+      // else {
+      //   r.json().then((err) => setErrors(err.errors));
+      // }
     });
   }
 
@@ -66,11 +63,11 @@ Ethereum hit $4000, will the trend continue?
               {isLoading ? "Loading..." : "Send Chat"}
             </Button>
           </FormField>
-          <FormField>
+          {/* <FormField>
             {errors.map((err) => (
               <Error key={err}>{err}</Error>
             ))}
-          </FormField>
+          </FormField> */}
         </form>
       </WrapperChild>
       <WrapperChild>

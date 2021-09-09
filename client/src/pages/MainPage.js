@@ -21,12 +21,11 @@ function  MainPage(){
         )
       }, []) 
  
-
-      // useEffect(() => {
-      //   fetch("/chatters")
-      //     .then((r) => r.json())
-      //     .then(setTopChats);
-      // }, []);
+      useEffect(() => {
+        fetch("/chatters")
+          .then((r) => r.json())
+          .then(setTopChats);
+      }, []);
 
 
       function addToPortfolio(coins, details) {
@@ -40,6 +39,7 @@ function  MainPage(){
         coin.name
       ))
 
+
       return (
         <>
       <div id="page">
@@ -48,8 +48,10 @@ function  MainPage(){
         <Ticker>
           {({ index }) => (
             <>
+            <span>
                 <h2>{name}[{index}]  </h2>
                 {/* <img src=" " alt=""/> */}
+            </span>
             </>
         )}
          </Ticker>
@@ -65,8 +67,8 @@ function  MainPage(){
             </Button>
 
           <h1 className="heading"> Top Crypto Chats </h1>
-             {topChats.likes > 0 ? (
-             topChats.map((chatter) => (
+             {/* {topChats.likes > 0 ? ( */}
+             {topChats.map((chatter) => (
             <Box>
               <h2>{chatter.headline}</h2>
               <p>{chatter.chat}</p>
@@ -74,8 +76,8 @@ function  MainPage(){
                 <cite>By {chatter.user.username}</cite>
               </p>
             </Box>
-            ))
-            ) : (
+            ))}
+            {/* ) : ( */}
         <>
           <h2>No Chats Yet</h2>
           <Button as={Link} to="/newchatter">
@@ -101,7 +103,7 @@ function  MainPage(){
                   }
 
         </>
-      )}
+      {/* )} */}
    </div>
         </>
       )

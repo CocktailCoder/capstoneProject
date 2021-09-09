@@ -4,45 +4,103 @@ import CoinCard from "./CoinCard";
 import {useHistory} from "react-router";
 
 function Dashboard({user, myPortfolio, coins,}){
-    const [cryptos, setCryptos] = useState([])
-    
-    let history = useHistory();
+  const [chats, setChats] = useState([])
+  const [watchlist, setWatchlist] = useState ([])
+  const {id} = chats;
+// attempt at fetching added cryptos below 
+let history = useHistory();
 
-    
-    useEffect(() => {
-        function fetchItems(){
-          fetch("/cryptos")
-          .then(res=>res.json())
-          .then(cryptos => {
-            if(cryptos.error){
-                history.push(`/signup`);
-              }else{
-                setCryptos(cryptos)
-              }
-          })
+useEffect(() => {
+  function fetchItems(){
+    fetch("/watchlists")
+    .then(res=>res.json())
+    .then(chats => {
+      if(chats.error){
+          history.push(`/sign_up`);
+        }else{
+          setWatchlist(chats)
         }
-        fetchItems();
-      },[]);
+    })
+  }
+  fetchItems();
+},[]);
 
-      const myCryptos = cryptos.filter(crypto => 
-        crypto.user.id === user.id
-    ); 
-    // const [currencies, setCurrencies] = useState([]);
-    // useEffect(() => {
-    //     fetch("/currencies")
-    //       .then((r) => r.json())
-    //       .then(setCurrencies);
-    //   }, []);
+const myWatchlist = chats.filter(watchlist => 
+  watchlist.user.id === user.id
+); 
+
+function deleteWatchlist(){
+  fetch(`/watchlists/${id}`,
+   { method: 'DELETE' })
+   .then((r)=>{
+    if (r.ok){
+      handleDelete(watchlist)
+  }})
+}
+
+const handleDelete = (deletedWatchlist) =>{
+  setWatchlist((watchlists)=>watchlists.filter((watchlist)=>watchlist.id !== deletedWatchlist.id))
+}
+
 
     return (
         <div>
-            {/* <h1 className ="heading">Hello {user.username}</h1> */}
-            <p className ="heading">Would you like to calculate your crypto holdings?</p>
-            {myCryptos.map(crypto => (
-          <CoinCard crypto={crypto} setCryptos={setCryptos}/> 
+            <h1 className ="heading">Hello {user.username}</h1>
+            <p className ="heading">Would you like to see your crypto holdings?</p>
+
+          <div key ={watchlist.id}>
+          {myWatchlist.map(watchlist => (
+          <h2>{watchlist.chatter.headline}</h2>
+    
         ))}
+          </div>
+
+        <span>
+              <button type='submit' class='favBtn' 
+              onClick={deleteWatchlist}
+              >
+                Remove from watchlists
+              </button>
+        </span>
         </div>
 
     )
 }
 export default Dashboard;
+
+             
+              // {currencies.map(crypto => (
+              //   <CoinCard crypto={crypto} setCryptos={setCurrencies}/> 
+              // ))} 
+
+        //  {myCryptos.map(crypto => (
+        //   <CoinCard crypto={crypto} setCryptos={setCryptos}/> 
+        // ))}
+
+          // const [cryptos, setCryptos] = useState([])
+    // let history = useHistory();
+    // useEffect(() => {
+    //     function fetchItems(){
+    //       fetch("/cryptos")
+    //       .then(res=>res.json())
+    //       .then(cryptos => {
+    //         if(cryptos.error){
+    //             history.push(`/signup`);
+    //           }else{
+    //             setCryptos(cryptos)
+    //           }
+    //       })
+    //     }
+    //     fetchItems();
+    //   },[]);
+
+    //   const myCryptos = cryptos.filter(crypto => 
+    //     crypto.user.id === user.id
+    // ); 
+
+    // const [currencies, setCurrencies] = useState([]);
+    // useEffect(() => {
+    //     fetch("/currency")
+    //       .then((r) => r.json())
+    //       .then(setCurrencies);
+    //   }, []);
