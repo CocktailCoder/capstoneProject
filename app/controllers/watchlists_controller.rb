@@ -17,6 +17,6 @@ class WatchlistsController < ApplicationController
     private
 
     def watchlist_params
-        params.permit(:user_id, :project_id)
+        params.permit(:user_id, :chatter_id)
     end
 end

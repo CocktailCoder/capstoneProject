@@ -12,10 +12,8 @@ function NewsForum({user}) {
   const [watchlist, setWatchlist] = useState(false)
   const {id} = chatters;
 
-
 let history = useHistory();
 
-  
   useEffect(() => {
     function fetchItems(){
       fetch("/chatters")
@@ -32,17 +30,18 @@ let history = useHistory();
   },[]);
 
   function handleUpdateProject(updatedProject) {
-    const updatedProjectsArray = chatters.map((project) => {
-      return project.id === updatedProject.id ? updatedProject : project;
+    const updatedProjectsArray = chatters.map((chatter) => {
+      return chatter.id === updatedProject.id ? updatedProject : chatter;
     });
     setChatters(updatedProjectsArray);
   }
 
 
+
   function addToWatchlist(chatter){
     const watchlist = {
       user_id: user.id,
-      chatter_id: chatter.id
+      chatter_id: chatters.id
     }
   
     fetch('/watchlists',{
@@ -52,8 +51,10 @@ let history = useHistory();
     })
     .then(res => res.json())
     .then(json =>{
-      if(json.error) setErrors(json.error)
-    })
+      if(json.error) {setErrors(json.error)
+    }else {
+      history.push("/dashboard");
+    }})
   }
 
 

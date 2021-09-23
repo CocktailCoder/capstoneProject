@@ -36,7 +36,7 @@ function App() {
             <Dashboard user={user} />
           </Route>
           <Route path="/">
-            <MainPage />
+            <MainPage user ={user}/>
           </Route>
           <Route path="/new">
             <NewChatter user={user} />

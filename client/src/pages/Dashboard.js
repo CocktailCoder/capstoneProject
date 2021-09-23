@@ -5,6 +5,7 @@ import {useHistory} from "react-router";
 
 function Dashboard({user, myPortfolio, coins,}){
   const [chats, setChats] = useState([])
+  const [cryptoDash, setCryptoDash] = useState([])
   const [watchlist, setWatchlist] = useState ([])
   const {id} = chats;
 // attempt at fetching added cryptos below 
@@ -18,15 +19,37 @@ useEffect(() => {
       if(chats.error){
           history.push(`/sign_up`);
         }else{
+          
           setWatchlist(chats)
+          // console.log(chats)
         }
     })
   }
   fetchItems();
 },[]);
 
-const myWatchlist = chats.filter(watchlist => 
-  watchlist.user.id === user.id
+useEffect(() => {
+  function fetchItems(){
+    fetch("/cryptodashes")
+    .then(res=>res.json())
+    .then(cryptos => {
+      if(cryptos.error){
+        history.push(`/sign_up`);
+      }else{
+        // console.log(cryptos)
+        setCryptoDash(cryptos)
+      }
+  })
+}
+  fetchItems();
+},[]);
+
+const myWatchlist = watchlist.filter(watchlistitem => 
+  watchlistitem.user.id === user.id
+); 
+
+const myCryptoDash = cryptoDash.filter(cryptolistitem => 
+  cryptolistitem.user.id === user.id
 ); 
 
 function deleteWatchlist(){
@@ -51,12 +74,19 @@ const handleDelete = (deletedWatchlist) =>{
           <div key ={watchlist.id}>
           {myWatchlist.map(watchlist => (
           <h2>{watchlist.chatter.headline}</h2>
-    
+
+        ))}
+          </div>
+
+          <div key ={cryptoDash.id}>
+          {myCryptoDash.map(cryptolist => (
+          <h2>{cryptolist.currency.name}</h2>
+
         ))}
           </div>
 
         <span>
-              <button type='submit' class='favBtn' 
+              <button type='submit' className='favBtn' 
               onClick={deleteWatchlist}
               >
                 Remove from watchlists

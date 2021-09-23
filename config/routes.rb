@@ -1,14 +1,15 @@
 Rails.application.routes.draw do
+  resources :cryptodashes, only: [:index, :show, :create, :update, :destroy]
   resources :watchlists, only: [:index, :show, :create, :update, :destroy]
-  resources :crypto_favs
   resources :chatters, only: [:index, :create, :show]
+  resources :currencies, only: [:index, :show, :create]
   
   post "/signup", to: "users#create"
   get "/me", to: "users#show"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
-  get "/currency", to: 'currencies#index'
+  # get "/currencies", to: 'currencies#index'
   post 'search', to: 'currencies#search'
   post 'calculate', to: 'currencies#calculate'
 
@@ -18,6 +19,10 @@ Rails.application.routes.draw do
   get "/watchlists", to: "watchlists#index"
   post "/watchlists", to: "watchlists#create"
   # destroy "/watchlists/:id/destroy", to: "watchlists#destroy"
+
+  get "/cryptodashes", to: "cryptodashes#index"
+  post "/cryptodashes", to: "cryptodashes#create"
+  
   # post '/updatecrypto' to: 'cryptos#update'
 
   # all other routes will be load our React application

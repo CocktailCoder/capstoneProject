@@ -6,13 +6,15 @@ import styled from "styled-components";
 import { Button, Box } from "../styles";
 import Ticker from 'react-ticker';
 import CoinCard from "./CoinCard";
+import CryptoList from "./CryptoList";
 import Dashboard from "./Dashboard";
 import { Switch, Route } from "react-router-dom"
  
-function  MainPage(){
+function  MainPage({user}){
     const [coins, setCoins ] = useState([])
     const [topChats, setTopChats] = useState([]);
     const [myPortfolio, setMyPortfolio] = useState([])
+    const [cryptoDash, setCrpytodash] = useState(false)
 
     useEffect(()=> {
         fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C%2024hr%2C%207d%2C%2030d%2C%20200d%2C%201yr`)
@@ -20,6 +22,13 @@ function  MainPage(){
         .then( crypto => setCoins(crypto)
         )
       }, []) 
+    useEffect(()=> {
+      fetch("/currencies")
+      .then(r => r.json())
+        .then(coins => setCoins(coins)
+        )
+        // .then(console.log)
+    }, []) 
  
       useEffect(() => {
         fetch("/chatters")
@@ -28,16 +37,9 @@ function  MainPage(){
       }, []);
 
 
-      function addToPortfolio(coins, details) {
-        if(!myPortfolio.includes(coins)) {
-       const updatePortfolio = [...myPortfolio, coins]
-       const updatePortfolioDeets = [...myPortfolio, details]
-       setMyPortfolio(updatePortfolio, updatePortfolioDeets)
-      }}
-      
-    const name = coins.map((coin) => (
-        coin.name
-      ))
+    // const name = coins.map((coin) => (
+    //     coin.name
+    //   ))
 
 
       return (
@@ -45,16 +47,15 @@ function  MainPage(){
       <div id="page">
         <h1 className="heading">Crypto Ticker</h1>
    
-        <Ticker>
-          {({ index }) => (
+        {/* <Ticker> */}
+          {/* {({ index }) => (
             <>
             <span>
                 <h2>{name}[{index}]  </h2>
-                {/* <img src=" " alt=""/> */}
             </span>
             </>
-        )}
-         </Ticker>
+        )} */}
+         {/* </Ticker> */}
             <br/>
 
           <h1 className="heading">Communities</h1>
@@ -87,6 +88,23 @@ function  MainPage(){
           <h1>List of cryptos</h1>
           {coins.map(coin => {
                     return (
+                    <CryptoList
+                    key = {coin.id}
+                    id = {coin.id}
+                    user = {user}
+                    name = {coin.name}
+                    description = {coin.description}
+                    supply = {coin.max_supply}
+                    symbol = {coin.currency_symbol}
+                    currency={coin}
+                    myPortfolio={myPortfolio}
+                    />
+                    )
+                  })
+                  }
+          {/* live list */}
+          {/* {coins.map(coin => {
+                    return (
                     <CoinCard
                     key = {coin.id}
                     id = {coin.id}
@@ -100,10 +118,9 @@ function  MainPage(){
                     />
                     )
                   })
-                  }
+                  } */}
 
         </>
-      {/* )} */}
    </div>
         </>
       )
