@@ -12,12 +12,12 @@
 # rails db:seed
 
 tokens = Token.create([
-  { name: 'Bitcoin', max_supply: 21000000, currency_symbol: 'BTC', slug: 'bitcoin' },
-  { name: 'Ethereum', max_supply: 96096842, currency_symbol: 'ETH', slug: 'ethereum' },
-  { name: 'Bitcoin Cash', max_supply: 21000000, currency_symbol: 'BCH', slug: 'bitcoin-cash' },
-  { name: 'Ripple', max_supply: 100000000000, currency_symbol: 'XRP', slug: 'ripple' },
-  { name: 'Dash', max_supply: 18900000, currency_symbol: 'DASH', slug: 'dash' },
-  { name: 'Litecoin', max_supply: 84000000, currency_symbol: 'LTC', slug: 'litecoin' },
+  { image: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579", name: 'Bitcoin', max_supply: 21000000, currency_symbol: 'BTC', slug: 'bitcoin' },
+  { image: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880", name: 'Ethereum', max_supply: 96096842, currency_symbol: 'ETH', slug: 'ethereum' },
+  { image: "https://assets.coingecko.com/coins/images/780/large/bitcoin-cash-circle.png?1594689492", name: 'Bitcoin Cash', max_supply: 21000000, currency_symbol: 'BCH', slug: 'bitcoin-cash' },
+  { image: "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1605778731", name: 'Ripple', max_supply: 100000000000, currency_symbol: 'XRP', slug: 'ripple' },
+  { image: "https://assets.coingecko.com/coins/images/19/large/dash-logo.png?1548385930", name: 'Dash', max_supply: 18900000, currency_symbol: 'DASH', slug: 'dash' },
+  { image: "https://assets.coingecko.com/coins/images/2/large/litecoin.png?1547033580", name: 'Litecoin', max_supply: 84000000, currency_symbol: 'LTC', slug: 'litecoin' },
   { name: 'Bitcoin Gold', max_supply: 21000000, currency_symbol: 'BTG', slug: 'bitcoin-gold' },
   { name: 'IOTA', max_supply: 2779530283, currency_symbol: 'MIOTA', slug: 'iota' },
   { name: 'Cardano', max_supply: 45000000000, currency_symbol: 'ADA', slug: 'cardano' },

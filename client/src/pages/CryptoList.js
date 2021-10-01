@@ -4,7 +4,7 @@ import Dashboard from "./Dashboard";
 import {useState} from "react";
 import {useHistory} from "react-router";
 
-function CryptoList({user, addToCryptodash, currency, name, symbol, crypto, setCryptos}) {
+function CryptoList({user, addToCryptodash, currency, name, symbol, crypto, image, setCryptos}) {
     const [errors, setErrors] = useState([])
     let history = useHistory();
     // const {id} = currency;
@@ -43,6 +43,7 @@ function CryptoList({user, addToCryptodash, currency, name, symbol, crypto, setC
         <h1>{name}
             <small>{symbol}</small>
         </h1>
+        <img src = {image} />
         <button onClick={() => addToCryptodash(currency)} >Add to Dashboard</button>
         {/* <button type='submit' 
               onClick={deleteCrypto}

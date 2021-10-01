@@ -80,16 +80,19 @@ function fetchItems(){
 </select>
       {chatters.length > 0 ? (
         chatters.map((chatter) => (
-          <div key={chatter.id + chatter.likes.length}>
+          <div key={chatter.id}>
             <Box>
               <h2>{chatter.headline}</h2>
               <p>
                 <cite>By {chatter.user.username}</cite>
               </p>
               <ReactMarkdown>{chatter.chat}</ReactMarkdown>
-              {/* <asdf key={}> */}
+              {/* <div>{chatter.likes}</div> */}
+              
               <button type='submit' class='likeBtn' onClick={() => toggleLike(chatter.id)}>
-                {chatter.likes.length !== 0 ? '💙' : '♡'}
+                {/* {chatter.likes.length !== 0 ? '💙' : '♡'} */}
+                Upvotes: {chatter.likes.length} 
+                {/* {chatter.likes} */}
               </button>
             </Box>
             <span>

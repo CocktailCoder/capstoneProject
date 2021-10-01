@@ -1,34 +1,20 @@
 import "./mainpage.css";
 import { useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import { Button, Box } from "../styles";
-import Ticker from 'react-ticker';
-import CoinCard from "./CoinCard";
 import CryptoList from "./CryptoList";
-import Dashboard from "./Dashboard";
-import { Switch, Route } from "react-router-dom"
+
  
 function  MainPage({user}){
-    const [coins, setCoins ] = useState([])
+    const [coins, setCoins ] = useState([]);
     const [topChats, setTopChats] = useState([]);
-    const [myPortfolio, setMyPortfolio] = useState([])
-    const [liked, setLiked] = useState(false)
-    const [cryptoDash, setCrpytodash] = useState(false)
+    const [ search, setSearch ] = useState('');
 
-    // useEffect(()=> {
-    //     fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C%2024hr%2C%207d%2C%2030d%2C%20200d%2C%201yr`)
-    //     .then(r => r.json())
-    //     .then( crypto => setCoins(crypto)
-    //     )
-    //   }, []) 
     useEffect(()=> {
       fetch("/tokens")
       .then(r => r.json())
         .then(coins => setCoins(coins)
         )
-        // .then(console.log)
     }, []) 
  
       useEffect(() => {
@@ -37,12 +23,14 @@ function  MainPage({user}){
           .then(setTopChats);
       }, []);
 
+      const handleChange = (e) => {
+          setSearch(e.target.value)
+      };
+      const searchFilterCrypto = coins.filter(coin => 
+          coin.name.toLowerCase().includes(search.toLowerCase())
+      ); 
 
-    // const name = coins.map((coin) => (
-    //     coin.name
-    //   ))
-
-
+{console.log(coins)}
       return (
         <>
       <div id="page">
@@ -77,41 +65,26 @@ function  MainPage({user}){
           <Button as={Link} to="/newchatter">
             Make a New Chat!
           </Button>
-
-          <h1>List of cryptos</h1>
-          {coins.map(coin => {
+          <h1>Get Live Updates On Cryptos</h1>
+          <form >
+                <input onChange = {handleChange}
+                 id="searchbox" type="text" placeholder="Search Crypto"/>
+            </form>
+            {searchFilterCrypto.map(coin => {
                     return (
-                    <CryptoList
-                    key = {coin.id}
-                    id = {coin.id}
-                    user = {user}
-                    name = {coin.name}
-                    description = {coin.description}
-                    supply = {coin.max_supply}
-                    symbol = {coin.currency_symbol}
-                    currency={coin}
-                    myPortfolio={myPortfolio}
-                    />
-                    )
-                  })
-                  }
-          {/* live list */}
-          {/* {coins.map(coin => {
-                    return (
-                    <CoinCard
-                    key = {coin.id}
-                    id = {coin.id}
-                    name = {coin.name}
-                    image = {coin.image}
-                    symbol = {coin.symbol}
-                    price = {coin.current_price}
-                    handleClick={addToPortfolio}
-                    coins={coin}
-                    myPortfolio={myPortfolio}
-                    />
-                    )
-                  })
-                  } */}
+                      <CryptoList
+                      key = {coin.id}
+                      id = {coin.id}
+                      user = {user}
+                      name = {coin.name}
+                      image = {coin.image}
+                      supply = {coin.max_supply}
+                      symbol = {coin.currency_symbol}
+                      currency={coin}
+                      />
+                )
+                })
+                }
 
         </>
    </div>
