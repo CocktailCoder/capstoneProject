@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   resources :watchlists, only: [:index, :show, :create, :update, :destroy]
   resources :chatters, only: [:index, :create, :show]
   resources :currencies, only: [:index, :show, :create]
+  resources :tokens, only: [:index, :show, :create]
+
+  # put '/chatter/:id/like' to: 'chatters#like', as: 'like'
   
   post "/signup", to: "users#create"
   get "/me", to: "users#show"
@@ -10,8 +13,8 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
 
   # get "/currencies", to: 'currencies#index'
-  post 'search', to: 'currencies#search'
-  post 'calculate', to: 'currencies#calculate'
+  post 'search', to: 'tokens#search'
+  post 'calculate', to: 'tokens#calculate'
 
   patch "/chatters/:id/like", to: "chatters#increment_likes"
   patch "/chatters/:id/unlike", to: "chatters#decrement_likes"

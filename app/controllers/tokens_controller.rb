@@ -1,20 +1,21 @@
-class CurrenciesController < ApplicationController
+class TokensController < ApplicationController
     def index
-      render json: Currency.all
+      render json: Token.all
     end
 
     def create
-      currency = @current_user.currencies.create!(currency_params)
-      render json: currency, status: :created
+      token = @token_user.tokens.create!(token_params)
+      render json: token, status: :created
     end
         
     private
     
-    def currency_params
+    def token_params
       params.permit(:name, :description, :max_supply, :currency_symbol, :slug, :user_id)
     end
   end
-    # def search
+
+      # def search
     #     @currencies = Currency.where('LOWER(name) LIKE ?' , "%#{params[:search].downcase}%")
     #     render json {currencies: @currencies}
     # end
@@ -35,4 +36,3 @@ class CurrenciesController < ApplicationController
     #   def currency
     #     @currency ||=Currency.find(params[:id])
     # end
-

@@ -1,4 +1,4 @@
 class Cryptodash < ApplicationRecord
   belongs_to :user
-  belongs_to :currency
+  belongs_to :token
 end

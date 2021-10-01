@@ -1,10 +1,12 @@
 class Chatter < ApplicationRecord
     belongs_to :user
+    has_many :likes
 
     validates :headline, presence: true
     validates :chat, length: { minimum: 25 }
 
-
-    # default_scope { includes(:user, :category) }
-    # scope :with_replies, -> { includes(:replies) }
+    def liked?(user)
+        !!self.likes.find{|like| like.user_id == user.id}
+    end
+ 
 end

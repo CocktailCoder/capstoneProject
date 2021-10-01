@@ -1,32 +1,28 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import CoinCard from "./CoinCard";
 import {useHistory} from "react-router";
+import { useParams } from "react-router-dom"
 
 function Dashboard({user, myPortfolio, coins,}){
   const [chats, setChats] = useState([])
   const [cryptoDash, setCryptoDash] = useState([])
   const [watchlist, setWatchlist] = useState ([])
-  const {id} = chats;
-// attempt at fetching added cryptos below 
-let history = useHistory();
+  const [coinDetail, setCoinDetail] = useState([])
+  // const {id} = cryptoDash;
 
-useEffect(() => {
-  function fetchItems(){
-    fetch("/watchlists")
-    .then(res=>res.json())
-    .then(chats => {
-      if(chats.error){
-          history.push(`/sign_up`);
-        }else{
-          
-          setWatchlist(chats)
-          // console.log(chats)
-        }
-    })
-  }
-  fetchItems();
-},[]);
+let history = useHistory();
+// const params = useParams()
+// console.log(params)
+
+function moreInfo (myCrypto){
+
+    fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${myCrypto}&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C%2024hr%2C%207d%2C%2030d%2C%20200d%2C%201yr`)
+        .then(r => r.json())
+        .then(data => {setCoinDetail(data)
+        history.push(`/dashboard`)})
+        // .then(console.log)
+
+}
 
 useEffect(() => {
   function fetchItems(){
@@ -38,22 +34,22 @@ useEffect(() => {
       }else{
         // console.log(cryptos)
         setCryptoDash(cryptos)
+        
       }
   })
 }
   fetchItems();
 },[]);
+let myCryptos = cryptoDash
+// {console.log(myCryptos)}
 
-const myWatchlist = watchlist.filter(watchlistitem => 
-  watchlistitem.user.id === user.id
-); 
 
-const myCryptoDash = cryptoDash.filter(cryptolistitem => 
-  cryptolistitem.user.id === user.id
-); 
+// const myCryptoDash = cryptoDash.filter(cryptolistitem => 
+//   cryptolistitem.user.id === user.id
+// ); 
 
-function deleteWatchlist(){
-  fetch(`/watchlists/${id}`,
+function deleteWatchlist(id){
+  fetch(`/cryptodashes/${id}`,
    { method: 'DELETE' })
    .then((r)=>{
     if (r.ok){
@@ -70,27 +66,34 @@ const handleDelete = (deletedWatchlist) =>{
         <div>
             <h1 className ="heading">Hello {user.username}</h1>
             <p className ="heading">Would you like to see your crypto holdings?</p>
-
-          <div key ={watchlist.id}>
-          {myWatchlist.map(watchlist => (
-          <h2>{watchlist.chatter.headline}</h2>
-
-        ))}
+            <h1>Crypto Updates</h1>
+            <h1>{coinDetail.map(crypto => (<>{crypto.id}</>))}</h1>
+            <h1>Live Price: {coinDetail.map(crypto => (<>{crypto.current_price.toFixed(2)}</>))}</h1>
+            <h2>Live Market Cap: {coinDetail.map(crypto => (<>{crypto.market_cap}</>))}</h2>
+            <br/>
+            <div id="watchlist">
+            <h1>Crypto Watchlist</h1>
+          <div key ={myCryptos.id}>
+            {myCryptos.map(cryptos => (
+              <div id={cryptos.token.id}>
+                <h1>{cryptos.token.name}</h1>
+                <h2>Symbol:{cryptos.token.currency_symbol}</h2>
+                {/* <h2>{cryptos.token.slug}</h2> */}
+                
+                <span>
+                <button type='button' class='favBtn' onClick={() => {moreInfo(cryptos.token.slug)}} > Update Crypto Info </button> 
+                <button type='button' class='favBtn' onClick={() => deleteWatchlist(cryptos.id)} > Delete from dashboard </button> 
+                </span>
+                
+              </div>))}
           </div>
-
-          <div key ={cryptoDash.id}>
-          {myCryptoDash.map(cryptolist => (
-          <h2>{cryptolist.currency.name}</h2>
-
-        ))}
           </div>
-
-        <span>
-              <button type='submit' className='favBtn' 
-              onClick={deleteWatchlist}
+          <span>
+              {/* <button type='submit' className='favBtn' 
+              onClick={()=>deleteWatchlist(crypto.token.id)}
               >
                 Remove from watchlists
-              </button>
+              </button> */}
         </span>
         </div>
 

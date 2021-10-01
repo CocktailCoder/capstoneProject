@@ -7,6 +7,7 @@ import CryptoChatter from "../pages/CryptoChatter";
 import NewChatter from "../pages/NewChatter";
 import Dashboard from "../pages/Dashboard"
 
+
 function App() {
   const [user, setUser] = useState(null);
 

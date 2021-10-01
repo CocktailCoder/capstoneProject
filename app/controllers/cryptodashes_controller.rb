@@ -18,6 +18,6 @@ class CryptodashesController < ApplicationController
     private
 
     def crypto_params
-        params.require(:cryptodash).permit(:user_id, :currency_id)
+        params.require(:cryptodash).permit(:user_id, :token_id)
     end
 end

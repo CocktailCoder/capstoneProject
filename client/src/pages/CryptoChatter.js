@@ -36,8 +36,6 @@ let history = useHistory();
     setChatters(updatedProjectsArray);
   }
 
-
-
   function addToWatchlist(chatter){
     const watchlist = {
       user_id: user.id,
@@ -58,6 +56,26 @@ let history = useHistory();
   }
 
 
+
+function like (id) {
+  const updateObj = {
+    likes: chatters.likes + 1,
+};
+  fetch(`/likes/${id}/like`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateObj),
+  })
+    .then((r) => r.json())
+    // .then((updatedProject) => {
+    //   handleUpdateProject(updatedProject);
+    // }) 
+}
+
+
+
   function toggleLike() {
       const updateObj = {
           likes: chatters.likes + 1,
@@ -66,8 +84,8 @@ let history = useHistory();
       setLiked(!liked)
 
       {!liked ? 
-          fetch(`/chatters/${id}/like`, {
-          method: "PATCH",
+          fetch(`/likes/${id}/like`, {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
@@ -78,8 +96,8 @@ let history = useHistory();
             handleUpdateProject(updatedProject);
           }) 
           :
-          fetch(`/chatters/${id}/unlike`, {
-              method: "PATCH",
+          fetch(`/likes/${id}/unlike`, {
+              method: "PUT",
               headers: {
                 "Content-Type": "application/json",
               },
@@ -108,14 +126,11 @@ let history = useHistory();
                 <cite>By {chatter.user.username}</cite>
               </p>
               <ReactMarkdown>{chatter.chat}</ReactMarkdown>
-              <button type='submit' class='likeBtn' onClick={toggleLike}>
+              <button type='submit' class='likeBtn' onClick={like}>
                 {!liked ? '♡' : '💙'}
               </button>
             </Box>
             <span>
-            <button type='button' class='favBtn' onClick={() => addToWatchlist(chatter)}>
-                   {!watchlist ? 'Add to Watchlist' : 'Remove from Watchlist'}
-              </button>
               <br></br>
 
           </span>

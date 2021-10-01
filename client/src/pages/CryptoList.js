@@ -24,7 +24,7 @@ function CryptoList({user, addToCryptodash, currency, name, symbol, crypto, setC
   function addToCryptodash(){
         const addCrypto = {
           user_id: user.id,
-          currency_id: currency.id
+          token_id: currency.id
         }
         fetch('/cryptodashes',{
           method:'POST',

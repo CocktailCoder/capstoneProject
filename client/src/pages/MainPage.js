@@ -14,16 +14,17 @@ function  MainPage({user}){
     const [coins, setCoins ] = useState([])
     const [topChats, setTopChats] = useState([]);
     const [myPortfolio, setMyPortfolio] = useState([])
+    const [liked, setLiked] = useState(false)
     const [cryptoDash, setCrpytodash] = useState(false)
 
+    // useEffect(()=> {
+    //     fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C%2024hr%2C%207d%2C%2030d%2C%20200d%2C%201yr`)
+    //     .then(r => r.json())
+    //     .then( crypto => setCoins(crypto)
+    //     )
+    //   }, []) 
     useEffect(()=> {
-        fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C%2024hr%2C%207d%2C%2030d%2C%20200d%2C%201yr`)
-        .then(r => r.json())
-        .then( crypto => setCoins(crypto)
-        )
-      }, []) 
-    useEffect(()=> {
-      fetch("/currencies")
+      fetch("/tokens")
       .then(r => r.json())
         .then(coins => setCoins(coins)
         )
@@ -47,15 +48,6 @@ function  MainPage({user}){
       <div id="page">
         <h1 className="heading">Crypto Ticker</h1>
    
-        {/* <Ticker> */}
-          {/* {({ index }) => (
-            <>
-            <span>
-                <h2>{name}[{index}]  </h2>
-            </span>
-            </>
-        )} */}
-         {/* </Ticker> */}
             <br/>
 
           <h1 className="heading">Communities</h1>
@@ -76,6 +68,9 @@ function  MainPage({user}){
               <p>
                 <cite>By {chatter.user.username}</cite>
               </p>
+              <button type='submit' class='likeBtn' onClick={console.log}>
+                {!liked ? '♡' : '💙'}
+                </button>
             </Box>
             ))}
             {/* ) : ( */}
