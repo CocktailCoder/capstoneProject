@@ -14,120 +14,82 @@ function NewsForum({user}) {
 
 let history = useHistory();
 
+function fetchItems(){
+  fetch("/chatters")
+  .then(res=>res.json())
+  .then(chatters => {
+    if(chatters.error){
+        history.push(`/`);
+      }else{
+        setChatters(chatters)
+      }
+  })
+}
   useEffect(() => {
-    function fetchItems(){
-      fetch("/chatters")
-      .then(res=>res.json())
-      .then(chatters => {
-        if(chatters.error){
-            history.push(`/`);
-          }else{
-            setChatters(chatters)
-          }
-      })
-    }
+
     fetchItems();
   },[]);
 
-  function handleUpdateProject(updatedProject) {
-    const updatedProjectsArray = chatters.map((chatter) => {
-      return chatter.id === updatedProject.id ? updatedProject : chatter;
-    });
-    setChatters(updatedProjectsArray);
-  }
-
-  function addToWatchlist(chatter){
-    const watchlist = {
-      user_id: user.id,
-      chatter_id: chatters.id
-    }
-  
-    fetch('/watchlists',{
-      method:'POST',
-      headers:{'Content-Type': 'application/json'},
-      body:JSON.stringify(watchlist)
-    })
-    .then(res => res.json())
-    .then(json =>{
-      if(json.error) {setErrors(json.error)
-    }else {
-      history.push("/dashboard");
-    }})
-  }
-
-
-
-function like (id) {
-  const updateObj = {
-    likes: chatters.likes + 1,
-};
-  fetch(`/likes/${id}/like`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updateObj),
-  })
-    .then((r) => r.json())
-    // .then((updatedProject) => {
-    //   handleUpdateProject(updatedProject);
-    // }) 
-}
-
-
-
-  function toggleLike() {
+  function toggleLike(id) {
       const updateObj = {
           likes: chatters.likes + 1,
       };
 
       setLiked(!liked)
-
-      {!liked ? 
-          fetch(`/likes/${id}/like`, {
-          method: "PUT",
+      const  chatter = chatters.find(ctr => ctr.id === id);
+      console.log(chatter)
+      if (chatter.likes.length === 0) { 
+        fetch(`/likes/${id}/like`, {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(updateObj),
         })
           .then((r) => r.json())
-          .then((updatedProject) => {
-            handleUpdateProject(updatedProject);
+          .then((_resp) => {
+            fetchItems();
           }) 
-          :
+        } else {
           fetch(`/likes/${id}/unlike`, {
-              method: "PUT",
+              method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify(updateObj),
             })
               .then((r) => r.json())
-              .then((updatedProject) => {
-                handleUpdateProject(updatedProject);
+              .then((_resp) => {
+                fetchItems();
               });
-          }
+        }
   }
-  useEffect(() => {
-    fetch("/chatters")
-      .then((r) => r.json())
-      .then(setChatters);
-  }, []);
+  // useEffect(() => {
+  //   fetch("/chatters")
+  //     .then((r) => r.json())
+  //     .then(setChatters);
+  // }, []);
 
   return (
+
     <Wrapper>
+          <select>
+        <option value="news">News</option>
+        <option value="projects">Projects</option>
+        <option value="jonbs">Jobs</option>
+</select>
       {chatters.length > 0 ? (
         chatters.map((chatter) => (
-          <div key={chatter.id}>
+          <div key={chatter.id + chatter.likes.length}>
             <Box>
               <h2>{chatter.headline}</h2>
               <p>
                 <cite>By {chatter.user.username}</cite>
               </p>
               <ReactMarkdown>{chatter.chat}</ReactMarkdown>
-              <button type='submit' class='likeBtn' onClick={like}>
-                {!liked ? '♡' : '💙'}
+              {/* <asdf key={}> */}
+              <button type='submit' class='likeBtn' onClick={() => toggleLike(chatter.id)}>
+                {chatter.likes.length !== 0 ? '💙' : '♡'}
               </button>
             </Box>
             <span>
@@ -163,3 +125,37 @@ const Recipe = styled.article`
 `;
 
 export default NewsForum;
+
+// function toggleLike() {
+//   const updateObj = {
+//       likes: chatters.likes + 1,
+//   };
+
+//   setLiked(!liked)
+
+//   {!liked ? 
+//       fetch(`/likes/${id}/like`, {
+//       method: "PUT",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(updateObj),
+//     })
+//       .then((r) => r.json())
+//       .then((updatedProject) => {
+//         handleUpdateProject(updatedProject);
+//       }) 
+//       :
+//       fetch(`/likes/${id}/unlike`, {
+//           method: "PUT",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify(updateObj),
+//         })
+//           .then((r) => r.json())
+//           .then((updatedProject) => {
+//             handleUpdateProject(updatedProject);
+//           });
+//       }
+// }

@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   resources :currencies, only: [:index, :show, :create]
   resources :tokens, only: [:index, :show, :create]
 
-  # put '/chatter/:id/like' to: 'chatters#like', as: 'like'
+  post '/likes/:id/like', to: 'likes#like', as: 'like'
+  post '/likes/:id/unlike', to: 'likes#unlike', as: 'unlike'
   
   post "/signup", to: "users#create"
   get "/me", to: "users#show"
@@ -16,8 +17,8 @@ Rails.application.routes.draw do
   post 'search', to: 'tokens#search'
   post 'calculate', to: 'tokens#calculate'
 
-  patch "/chatters/:id/like", to: "chatters#increment_likes"
-  patch "/chatters/:id/unlike", to: "chatters#decrement_likes"
+  # patch "/likes/:id/like", to: "chatters#increment_likes"
+  # patch "/chatters/:id/unlike", to: "chatters#decrement_likes"
 
   get "/watchlists", to: "watchlists#index"
   post "/watchlists", to: "watchlists#create"

@@ -68,9 +68,7 @@ function  MainPage({user}){
               <p>
                 <cite>By {chatter.user.username}</cite>
               </p>
-              <button type='submit' class='likeBtn' onClick={console.log}>
-                {!liked ? '♡' : '💙'}
-                </button>
+        
             </Box>
             ))}
             {/* ) : ( */}
