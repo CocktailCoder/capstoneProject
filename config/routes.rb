@@ -5,8 +5,16 @@ Rails.application.routes.draw do
   resources :currencies, only: [:index, :show, :create]
   resources :tokens, only: [:index, :show, :create]
 
-  post '/likes/:id/like', to: 'likes#like', as: 'like'
-  post '/likes/:id/unlike', to: 'likes#unlike', as: 'unlike'
+  root 'pages#index'
+  namespace :api do
+    namespace :v1 do
+      resources :airposts, param: :slug
+      resources :reviews, only: [:create, :destroy]
+    end
+  end
+#   get '*path', to: 'pages#index', via: :all
+# end
+
   
   post "/signup", to: "users#create"
   get "/me", to: "users#show"
@@ -17,8 +25,6 @@ Rails.application.routes.draw do
   post 'search', to: 'tokens#search'
   post 'calculate', to: 'tokens#calculate'
 
-  # patch "/likes/:id/like", to: "chatters#increment_likes"
-  # patch "/chatters/:id/unlike", to: "chatters#decrement_likes"
 
   get "/watchlists", to: "watchlists#index"
   post "/watchlists", to: "watchlists#create"
@@ -39,3 +45,8 @@ Rails.application.routes.draw do
 
 end
 
+# Like routes
+  # patch "/likes/:id/like", to: "chatters#increment_likes"
+  # patch "/chatters/:id/unlike", to: "chatters#decrement_likes"
+  # post '/likes/:id/like', to: 'likes#like', as: 'like'
+  # post '/likes/:id/unlike', to: 'likes#unlike', as: 'unlike'

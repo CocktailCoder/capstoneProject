@@ -5,8 +5,9 @@ import Login from "../pages/Login";
 import MainPage from "../pages/MainPage";
 import CryptoChatter from "../pages/CryptoChatter";
 import NewChatter from "../pages/NewChatter";
-import Dashboard from "../pages/Dashboard"
-
+import Dashboard from "../pages/Dashboard";
+import Airposts from './Airposts/Airposts';
+import Airpost from './Airpost/Airpost';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -27,21 +28,26 @@ function App() {
       <NavBar user={user} setUser={setUser} />
       <main>
         <Switch>
-          <Route path="/chatter">
+          {/* <Route path="/chatter">
             <CryptoChatter user={user} />
-          </Route>
+          </Route> */}
+
+    {/* Posts */}
+          <Route exact path="/" component={Airposts} />
+          <Route exact path="/airposts/:slug" component={Airpost} />
+{/* 
           <Route path="/newchatter">
             <NewChatter user={user} />
           </Route>
           <Route path="/dashboard">
             <Dashboard user={user} />
-          </Route>
-          <Route path="/">
+          </Route> */}
+          {/* <Route path="/">
             <MainPage user ={user}/>
-          </Route>
-          <Route path="/new">
+          </Route> */}
+          {/* <Route path="/new">
             <NewChatter user={user} />
-          </Route>
+          </Route> */}
         </Switch>
       </main>
     </>

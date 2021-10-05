@@ -11,6 +11,7 @@
     "heroku-postbuild": "npm run clean && npm run build && npm run deploy"
   },
   "dependencies": {
+    "axios": "^0.22.0",
     "react-ticker": "^1.2.2"
   }
 }

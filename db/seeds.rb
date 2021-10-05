@@ -11,6 +11,42 @@
 # rails db:migrate
 # rails db:seed
 
+airposts = Airpost.create([
+  { 
+    name: "Coin Base",
+    title: "About 6,000 Users Falls Trap as Victims under Phishing Attack: Coinbase",
+    image_url: "https://image.blockchain.news/thumbnails/91261857631C402D72E92D25499823E704B79BAC3CED57821F08B8A7A95E61E9.jpg"
+  }, 
+  { 
+    name: "Ethereum",
+    title: "Total Value Locked in Ethereum 2.0 Hits a Record-High Amid ETH Supply on Exchanges Nosediving",
+    image_url: "https://image.blockchain.news/thumbnails/658D28D7579806B248CD6BFFBA929C8637CA2CF00961D553F9835A644274D7D3.jpg"
+  },
+  { 
+    name: "Coin Desk",
+    title: "Airdrop, Staking Announcement Power Axie Infinity’s AXS Token to Record High",
+    image_url: "https://coindesk-coindesk-prod.cdn.arcpublishing.com/resizer/PHkP2xlEPlSucoz-riqFmM_crzY=/400x300/filters:format(jpg):quality(70)/cloudfront-us-east-1.images.arcpublishing.com/coindesk/CPJCLTKVGBHEDDC2TCAMQOFUHU.jpg" 
+  }, 
+  { 
+    name: "Tech News",
+    title: "Kraken Reveals Security Vulnerabilities in Bitcoin ATMs",
+    image_url: "https://coindesk-coindesk-prod.cdn.arcpublishing.com/resizer/VV29FskORF6DbTUM-8I6ZorXDBs=/400x300/filters:format(jpg):quality(70)/cloudfront-us-east-1.images.arcpublishing.com/coindesk/UBKKFEUMFFE4NLE7MYY55RF3CU.jpg" 
+  }
+])
+reviews = Review.create([
+  { 
+    title: "great",
+    description: "great post looks bullish",
+    score: 5,
+    airpost: airposts.first
+},
+{ 
+  title: "bad",
+  description: "had a bad time, looks bearish",
+  score: 1,
+  airpost: airposts.first
+}
+])
 tokens = Token.create([
   { image: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579", name: 'Bitcoin', max_supply: 21000000, currency_symbol: 'BTC', slug: 'bitcoin' },
   { image: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880", name: 'Ethereum', max_supply: 96096842, currency_symbol: 'ETH', slug: 'ethereum' },

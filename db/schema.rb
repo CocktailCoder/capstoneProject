@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_30_144121) do
+ActiveRecord::Schema.define(version: 2021_10_04_150424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "airposts", force: :cascade do |t|
+    t.string "name"
+    t.string "image_url"
+    t.string "slug"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "title"
+  end
 
   create_table "chatters", force: :cascade do |t|
     t.string "headline"
@@ -53,6 +62,16 @@ ActiveRecord::Schema.define(version: 2021_09_30_144121) do
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.integer "score"
+    t.bigint "airpost_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["airpost_id"], name: "index_reviews_on_airpost_id"
+  end
+
   create_table "tokens", force: :cascade do |t|
     t.string "name"
     t.string "image"
@@ -84,6 +103,7 @@ ActiveRecord::Schema.define(version: 2021_09_30_144121) do
   add_foreign_key "cryptodashes", "users"
   add_foreign_key "likes", "chatters"
   add_foreign_key "likes", "users"
+  add_foreign_key "reviews", "airposts"
   add_foreign_key "watchlists", "chatters"
   add_foreign_key "watchlists", "users"
 end
